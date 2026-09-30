@@ -1,5 +1,6 @@
 package br.com.sake.controller;
 
+import br.com.sake.dto.AppointmentResponse;
 import br.com.sake.entity.Appointment;
 import br.com.sake.service.AppointmentService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ public class AppointmentController {
     private final AppointmentService service;
 
     @GetMapping("/{id}")
-    public Appointment findById (@PathVariable Long id){
+    public AppointmentResponse findById (@PathVariable Long id){
         return service.findById(id);
 
     }
