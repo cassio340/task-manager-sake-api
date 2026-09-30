@@ -1,6 +1,8 @@
 package br.com.sake.service;
 
-import br.com.sake.entity.User;
+import br.com.sake.dto.UserResponse;
+
+import br.com.sake.mapper.UserMapper;
 import br.com.sake.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository repository;
+    private final UserMapper mapper;
 
-    public User findById (Long id){
-        return repository.findById(id).orElseThrow();
+    public UserResponse findById (Long id){
+
+        return  mapper.toResponse(repository.findById(id).orElseThrow());
     }
 
 }
