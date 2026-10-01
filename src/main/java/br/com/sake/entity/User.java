@@ -1,10 +1,13 @@
 package br.com.sake.entity;
 
+import br.com.sake.dto.AppointmentResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -21,4 +24,7 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Appointment> appointment;
 }

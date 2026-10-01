@@ -2,6 +2,7 @@ package br.com.sake.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class Appointment implements Serializable {
     private String description;
     private LocalDate date;
     private LocalTime time;
-
+    @ManyToOne
+    private User user;
 
 }
