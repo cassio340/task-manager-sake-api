@@ -13,6 +13,7 @@ public interface AppointmentMapper {
     @Mapping(target = "id" , ignore = true)
     Appointment toEntity(AppointmentRequest request);
 
+
     AppointmentResponse toResponse(Appointment appointment);
 
     List<AppointmentResponse> toResponseList(List <Appointment> appointmentList );

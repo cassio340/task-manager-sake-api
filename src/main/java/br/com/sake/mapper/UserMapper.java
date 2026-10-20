@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = AppointmentMapper.class)
 public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     User toEntity (UserRequest request);

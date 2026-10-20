@@ -7,6 +7,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,5 +27,5 @@ public class User implements Serializable {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Appointment> appointment;
+    private List<Appointment> appointment = new ArrayList<>();
 }
