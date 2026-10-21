@@ -64,7 +64,6 @@ Organização em camadas: `controller` → `service` → `repository` → `entit
 ## Próximos passos
 
 - [ ] CRUD completo de tarefas
-- [ ] Vincular tarefas a usuários
 - [ ] Autenticação com JWT e senhas com BCrypt
 - [ ] Tratamento de erros padronizado
 - [ ] Testes automatizados

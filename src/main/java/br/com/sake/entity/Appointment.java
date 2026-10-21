@@ -27,5 +27,5 @@ public class Appointment implements Serializable {
     @ManyToOne
     private User user;
 
-   
+
 }
