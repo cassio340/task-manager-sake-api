@@ -31,6 +31,21 @@ public class AppointmentService {
         repository.save(appointment);
 
     }
+    public void update (Long id,AppointmentRequest request){
+        
+        Appointment appointment = repository.findById(id).orElseThrow();
+
+        appointment.setName(request.name());
+        appointment.setDescription(request.description());
+        appointment.setDate(request.date());
+        appointment.setTime(request.time());
+        repository.save(appointment);
+
+
+
+
+
+    }
     public void delete (Long id){
 
 

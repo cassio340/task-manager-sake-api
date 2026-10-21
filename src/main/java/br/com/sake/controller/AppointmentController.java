@@ -24,6 +24,10 @@ public class AppointmentController {
         service.insert(request);
     }
 
+    @PutMapping("{id}")
+    public void update (@PathVariable Long id,@RequestBody AppointmentRequest request){
+        service.update(id,request);
+    }
     @DeleteMapping("/{id}")
     public void delete (@PathVariable Long id){
         service.delete(id);
