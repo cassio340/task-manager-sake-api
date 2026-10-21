@@ -1,9 +1,6 @@
 package br.com.sake.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -21,6 +18,7 @@ public class Appointment implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
@@ -29,4 +27,5 @@ public class Appointment implements Serializable {
     @ManyToOne
     private User user;
 
+   
 }
