@@ -31,5 +31,10 @@ public class AppointmentService {
         repository.save(appointment);
 
     }
+    public void delete (Long id){
+
+
+        repository.deleteById(id);
+    }
 
 }
