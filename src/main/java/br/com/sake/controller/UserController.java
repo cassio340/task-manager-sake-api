@@ -24,4 +24,8 @@ public class UserController {
         service.insert(request);
     }
 
+    @PutMapping("/{id}")
+    public void update (@RequestBody UserRequest request , @PathVariable Long id){
+        service.update(request,id);
+    }
 }
