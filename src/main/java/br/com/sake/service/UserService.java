@@ -1,5 +1,6 @@
 package br.com.sake.service;
 
+import br.com.sake.dto.UserRequest;
 import br.com.sake.dto.UserResponse;
 
 import br.com.sake.entity.User;
@@ -18,13 +19,16 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    private final AppointmentMapper appointmentMapper;
     public UserResponse findById (Long id){
 
         User user = repository.findById(id).orElseThrow();
-
-
         return  mapper.toResponse(user);
+
+    }
+
+    public void insert (UserRequest request){
+        repository.save(mapper.toEntity(request));
+
     }
 
 }

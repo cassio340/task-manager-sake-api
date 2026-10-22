@@ -23,6 +23,7 @@ public class AppointmentService {
 
         return mapper.toResponse(repository.findById(id).orElseThrow());
     }
+
     public void insert (AppointmentRequest request){
         User user = userRepository.findById(request.userId())
                 .orElseThrow();
@@ -31,8 +32,9 @@ public class AppointmentService {
         repository.save(appointment);
 
     }
+
     public void update (Long id,AppointmentRequest request){
-        
+
         Appointment appointment = repository.findById(id).orElseThrow();
 
         appointment.setName(request.name());
@@ -40,15 +42,9 @@ public class AppointmentService {
         appointment.setDate(request.date());
         appointment.setTime(request.time());
         repository.save(appointment);
-
-
-
-
-
     }
+
     public void delete (Long id){
-
-
         repository.deleteById(id);
     }
 
