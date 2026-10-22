@@ -39,4 +39,7 @@ public class UserService {
         user.setPassword(request.password());
 
     }
+    public void delete (Long id){
+        repository.deleteById(id);
+    }
 }
