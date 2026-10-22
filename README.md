@@ -63,10 +63,9 @@ Organização em camadas: `controller` → `service` → `repository` → `entit
 
 ## Próximos passos
 
-- [ ] CRUD completo de tarefas
-- [ ] Autenticação com JWT e senhas com BCrypt
-- [ ] Tratamento de erros padronizado
 - [ ] Testes automatizados
+- [ ] Tratamento de erros padronizado
+- [ ] Autenticação com JWT e senhas com BCrypt
 - [ ] Documentação com Swagger/OpenAPI
 - [ ] Docker
 
