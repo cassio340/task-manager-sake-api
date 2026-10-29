@@ -4,6 +4,7 @@ import br.com.sake.dto.AppointmentRequest;
 import br.com.sake.dto.AppointmentResponse;
 import br.com.sake.entity.Appointment;
 import br.com.sake.entity.User;
+import br.com.sake.exceptions.custom.NotFoundException;
 import br.com.sake.mapper.AppointmentMapper;
 import br.com.sake.repository.AppointmentRepository;
 import br.com.sake.repository.UserRepository;
@@ -21,12 +22,13 @@ public class AppointmentService {
     public AppointmentResponse findById (Long id){
 
 
-        return mapper.toResponse(repository.findById(id).orElseThrow());
+        return mapper.toResponse(repository.findById(id).orElseThrow(()->
+                new NotFoundException("appointment not found")));
     }
 
     public void insert (AppointmentRequest request){
         User user = userRepository.findById(request.userId())
-                .orElseThrow();
+                .orElseThrow(()-> new NotFoundException("user not found"));
         Appointment appointment = mapper.toEntity(request);
         appointment.setUser(user);
         repository.save(appointment);
@@ -35,7 +37,7 @@ public class AppointmentService {
 
     public void update (Long id,AppointmentRequest request){
 
-        Appointment appointment = repository.findById(id).orElseThrow();
+        Appointment appointment = repository.findById(id).orElseThrow(()-> new NotFoundException("appointment not found"));
 
         appointment.setName(request.name());
         appointment.setDescription(request.description());
@@ -45,7 +47,10 @@ public class AppointmentService {
     }
 
     public void delete (Long id){
-        repository.deleteById(id);
+
+        Appointment appointment = repository.findById(id).orElseThrow(()->
+                new NotFoundException("appointment not found "));
+        repository.deleteById(appointment.getId());
     }
 
 }

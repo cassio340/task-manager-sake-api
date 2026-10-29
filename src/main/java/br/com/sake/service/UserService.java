@@ -4,7 +4,8 @@ import br.com.sake.dto.UserRequest;
 import br.com.sake.dto.UserResponse;
 
 import br.com.sake.entity.User;
-import br.com.sake.mapper.AppointmentMapper;
+import br.com.sake.exceptions.custom.NotFoundException;
+
 import br.com.sake.mapper.UserMapper;
 import br.com.sake.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -22,7 +23,7 @@ public class UserService {
 
     public UserResponse findById (Long id){
 
-        User user = repository.findById(id).orElseThrow();
+        User user = repository.findById(id).orElseThrow(()-> new NotFoundException("user not found"));
         return  mapper.toResponse(user);
 
     }
@@ -33,13 +34,14 @@ public class UserService {
     }
     @Transactional
     public void update (UserRequest request,Long id){
-        User user = repository.findById(id).orElseThrow();
+        User user = repository.findById(id).orElseThrow(()-> new NotFoundException("user not found"));
         user.setName(request.name());
         user.setEmail(request.email());
         user.setPassword(request.password());
 
     }
     public void delete (Long id){
-        repository.deleteById(id);
+        User user = repository.findById(id).orElseThrow(()-> new NotFoundException("user not found"));
+        repository.deleteById(user.getId());
     }
 }
