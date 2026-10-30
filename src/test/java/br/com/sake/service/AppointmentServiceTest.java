@@ -1,7 +1,9 @@
 package br.com.sake.service;
 
+import br.com.sake.dto.AppointmentRequest;
 import br.com.sake.dto.AppointmentResponse;
 import br.com.sake.entity.Appointment;
+import br.com.sake.entity.User;
 import br.com.sake.exceptions.custom.NotFoundException;
 import br.com.sake.mapper.AppointmentMapper;
 import br.com.sake.repository.AppointmentRepository;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.Assert;
 
 
 import java.time.LocalDate;
@@ -39,11 +42,23 @@ public class AppointmentServiceTest {
     private AppointmentService service;
 
     private Appointment appointment;
+    private AppointmentResponse response;
+    private AppointmentRequest request;
 
     @BeforeEach
     public void setup(){
         appointment = new Appointment();
         appointment.setId(1L);
+        appointment.setName("task");
+        appointment.setDescription("description");
+        appointment.setDate(LocalDate.parse("2026-12-10"));
+        appointment.setTime(LocalTime.parse("12:32:12"));
+
+        response = new AppointmentResponse(1L, "task", "description",
+                LocalDate.parse("2026-12-10"), LocalTime.parse("12:32:12"));
+
+        request = new AppointmentRequest("task","description",
+                LocalDate.parse("2026-12-10"), LocalTime.parse("12:32:12"),1L);
     }
 
     @Nested
@@ -53,8 +68,6 @@ public class AppointmentServiceTest {
         @DisplayName("appointment successfully found")
         public void findByIdSuccessful() {
 
-            AppointmentResponse response = new AppointmentResponse(1L, "Task", "description",
-                    LocalDate.parse("2026-12-10"), LocalTime.parse("12:32:12"));
 
             when(repository.findById(1L)).thenReturn(Optional.of(appointment));
             when(mapper.toResponse(appointment)).thenReturn(response);
@@ -85,5 +98,42 @@ public class AppointmentServiceTest {
 
     }
 
+    @Nested
+    @DisplayName("Insert tests")
+    class InsertTests{
+
+        @Test
+        public void insertSuccessful(){
+            User user = mock(User.class );
+
+
+            when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+            when(mapper.toEntity(request)).thenReturn(appointment);
+            when(repository.save(appointment)).thenReturn(appointment);
+            when(mapper.toResponse(appointment)).thenReturn(response);
+
+            AppointmentResponse savedResponse = service.insert(request);
+
+            assertSame(savedResponse,response);
+            assertSame(appointment.getUser(),user);
+            verify(userRepository).findById(1L);
+            verify(mapper).toEntity(request);
+            verify(repository).save(appointment);
+            verify(mapper).toResponse(appointment);
+
+        }
+        @Test
+        public void insertUserNotFound (){
+
+            when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+
+            assertThrows(NotFoundException.class,()-> service.insert(request));
+            verify(userRepository).findById(1L);
+            verifyNoInteractions(mapper,repository);
+
+        }
+
+    }
 
 }
