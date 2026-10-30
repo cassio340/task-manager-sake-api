@@ -26,13 +26,14 @@ public class AppointmentService {
                 new NotFoundException("appointment not found")));
     }
 
-    public void insert (AppointmentRequest request){
+    public AppointmentResponse insert (AppointmentRequest request){
         User user = userRepository.findById(request.userId())
                 .orElseThrow(()-> new NotFoundException("user not found"));
         Appointment appointment = mapper.toEntity(request);
         appointment.setUser(user);
-        repository.save(appointment);
 
+        Appointment saved = repository.save(appointment);
+        return mapper.toResponse(saved);
     }
 
     public void update (Long id,AppointmentRequest request){
