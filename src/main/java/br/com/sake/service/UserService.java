@@ -34,12 +34,14 @@ public class UserService {
         return mapper.toResponse(userSaved);
     }
     @Transactional
-    public void update (UserRequest request,Long id){
+    public UserResponse update (UserRequest request,Long id){
         User user = repository.findById(id).orElseThrow(()-> new NotFoundException("user not found"));
+
         user.setName(request.name());
         user.setEmail(request.email());
         user.setPassword(request.password());
 
+        return mapper.toResponse(user);
     }
     public void delete (Long id){
         User user = repository.findById(id).orElseThrow(()-> new NotFoundException("user not found"));
