@@ -28,9 +28,10 @@ public class UserService {
 
     }
 
-    public void insert (UserRequest request){
-        repository.save(mapper.toEntity(request));
+    public UserResponse insert (UserRequest request){
+        User userSaved = repository.save(mapper.toEntity(request));
 
+        return mapper.toResponse(userSaved);
     }
     @Transactional
     public void update (UserRequest request,Long id){
