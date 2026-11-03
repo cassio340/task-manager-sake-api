@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.Assert;
+
 
 
 import java.time.LocalDate;
@@ -141,7 +141,7 @@ public class AppointmentServiceTest {
     class UpdateTests{
 
         @Test
-        public void updateSuccesufuly (){
+        public void updateSuccessful (){
             Long id = 1L;
 
             when(repository.findById(1L)).thenReturn(Optional.of(appointment));
@@ -170,4 +170,32 @@ public class AppointmentServiceTest {
         }
     }
 
+    @Nested
+    class DeleteTests{
+
+        @Test
+        public void deletedSuccessful(){
+            Long id = 1L;
+
+            when(repository.findById(id)).thenReturn(Optional.of(appointment));
+
+            service.delete(id);
+
+
+            verify(repository).findById(id);
+            verify(repository).deleteById(id);
+        }
+
+        @Test
+        public void deletedAppointmentNotFound (){
+            Long id = 1L;
+
+            when(repository.findById(id)).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class,()-> service.delete(id));
+
+            verify(repository).findById(id);
+            verify(repository,never()).deleteById(any());
+        }
+    }
 }
