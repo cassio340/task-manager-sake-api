@@ -75,4 +75,27 @@ public class UserServiceTest {
 
         }
     }
+
+    @Nested
+    @DisplayName("Insert tests")
+    class InsertTests{
+        @Test
+        public void insertSuccessful(){
+
+            when(mapper.toEntity(request)).thenReturn(user);
+            when(repository.save(user)).thenReturn(user);
+            when(mapper.toResponse(user)).thenReturn(response);
+
+            UserResponse result = service.insert(request);
+
+            assertEquals(response.name(), result.name());
+            assertEquals(response.email(), result.email());
+            assertEquals(response.appointment(), result.appointment());
+
+            verify(mapper).toEntity(request);
+            verify(repository).save(user);
+            verify(mapper).toResponse(user);
+        }
+        
+    }
 }
