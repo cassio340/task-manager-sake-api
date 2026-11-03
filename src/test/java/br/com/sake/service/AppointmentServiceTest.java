@@ -136,4 +136,38 @@ public class AppointmentServiceTest {
 
     }
 
+    @Nested
+    @DisplayName("Update tests")
+    class UpdateTests{
+
+        @Test
+        public void updateSuccesufuly (){
+            Long id = 1L;
+
+            when(repository.findById(1L)).thenReturn(Optional.of(appointment));
+
+            service.update(id,request);
+
+            assertEquals(request.name(), appointment.getName());
+            assertEquals(request.description(), appointment.getDescription());
+            assertEquals(request.date(), appointment.getDate());
+            assertEquals(request.time(), appointment.getTime());
+
+            verify(repository).findById(1L);
+            verify(repository).save(appointment);
+
+        }
+        @Test
+        public void updateAppointmentNotFound(){
+            Long id = 1L;
+
+            when(repository.findById(1L)).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class,()->service.update(id,request) );
+
+            verify(repository).findById(1L);
+            verify(repository,never()).save(any());
+        }
+    }
+
 }
