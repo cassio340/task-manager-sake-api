@@ -140,4 +140,31 @@ public class UserServiceTest {
             verifyNoInteractions(mapper);
         }
     }
+
+    @Nested
+    @DisplayName("Delete tests")
+    class DeleteTests{
+        @Test
+        public void deleteSuccessful(){
+            Long id = 1L;
+
+            when(repository.findById(id)).thenReturn(Optional.of(user));
+
+            service.delete(id);
+            verify(repository).findById(id);
+            verify(repository).deleteById(id);
+
+        }
+        @Test
+        public void deleteUserNotFound(){
+            Long id = 1L;
+
+            when(repository.findById(id)).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class,()-> service.delete(id));
+            verify(repository).findById(id);
+            verifyNoMoreInteractions(repository);
+
+        }
+    }
 }
