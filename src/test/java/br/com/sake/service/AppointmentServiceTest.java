@@ -57,8 +57,8 @@ public class AppointmentServiceTest {
         response = new AppointmentResponse(1L, "task", "description",
                 LocalDate.parse("2026-12-10"), LocalTime.parse("12:32:12"));
 
-        request = new AppointmentRequest("task","description",
-                LocalDate.parse("2026-12-10"), LocalTime.parse("12:32:12"),1L);
+        request = new AppointmentRequest("newTask","newDescription",
+                LocalDate.parse("2027-12-10"), LocalTime.parse("14:32:12"),1L);
     }
 
     @Nested
