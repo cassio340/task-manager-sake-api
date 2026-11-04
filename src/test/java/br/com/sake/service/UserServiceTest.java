@@ -43,6 +43,7 @@ public class UserServiceTest {
         user.setEmail("user23@email.com");
         user.setPassword("1234");
         response = new UserResponse("user","user23@email.com",null);
+        request = new UserRequest("newUser","userNew@email.com","new1234");
     }
 
     @Nested
@@ -96,6 +97,47 @@ public class UserServiceTest {
             verify(repository).save(user);
             verify(mapper).toResponse(user);
         }
-        
+
+    }
+
+    @Nested
+    @DisplayName("Update tests")
+    class UpdateTests{
+        @Test
+        public void updateSuccessful(){
+            Long id = 1L;
+
+            UserResponse updatedResponse = new UserResponse(
+                    request.name(),
+                    request.email(),
+                    response.appointment()
+            );
+            when(repository.findById(id)).thenReturn(Optional.of(user));
+            when(mapper.toResponse(user)).thenReturn(updatedResponse);
+
+            UserResponse result = service.update(request,id);
+
+            assertEquals(request.name(), user.getName());
+            assertEquals(request.email(), user.getEmail());
+            assertEquals(request.password(), user.getPassword());
+
+            assertEquals(request.name(), result.name());
+            assertEquals(request.email(), result.email());
+
+            verify(repository).findById(id);
+            verify(mapper).toResponse(user);
+
+        }
+
+        @Test
+        public void updateUserNotFound (){
+            Long id = 1L;
+            when(repository.findById(id)).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class,()-> service.update(request,id));
+
+            verify(repository).findById(id);
+            verifyNoInteractions(mapper);
+        }
     }
 }
